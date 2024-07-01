@@ -27,6 +27,15 @@ const getAccessToken = async () => {
     accessToken = response.data.access_token;
 };
 
+/*app.get('/api/token', async (req, res) => {
+    try {
+        const token = await getAccessToken();
+        res.json({ token });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch token' });
+    }
+});*/
+
 app.get('/api/top10', async (req, res) => {
     if (!accessToken) {
         await getAccessToken();
@@ -44,10 +53,14 @@ app.get('/api/top10', async (req, res) => {
             await getAccessToken();
             return res.redirect('/api/top10');
         }
-        res.status(500).json({ error: 'Failed to fetch top 50 tracks' });
+        res.status(500).json({ error: 'Failed to fetch top 10 tracks' });
     }
 });
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+module.exports = {
+    accessToken,
+};
